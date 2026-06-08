@@ -56,7 +56,7 @@ public class PlayerScript : MonoBehaviour
                 speed = 0;
             }
         }
-        rb.position += speed * Time.deltaTime * moveDir;
+        rb.position += speed * Time.deltaTime * moveDir.normalized;
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
