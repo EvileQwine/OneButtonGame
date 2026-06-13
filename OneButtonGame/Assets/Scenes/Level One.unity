@@ -448,6 +448,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2130109482339675612, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
+      propertyPath: currentCheckpoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6102980226575799730, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
       propertyPath: m_Name
       value: 'Player '
@@ -3837,6 +3841,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   RoughGibs: {fileID: 8344251184183194969, guid: 0017f13ef885ea34fbe85322bf2c4989, type: 3}
+  RoundGibs: {fileID: 9182173783611751538, guid: e3dd10ef071c6e74cae770b5e2b9c2b5, type: 3}
+  explosiveForce: 5
 --- !u!4 &890482059
 Transform:
   m_ObjectHideFlags: 0
@@ -5062,6 +5068,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3927776674765853441, guid: df4135d5b751bc142ad0d6a9c4dab41b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312886413708709110, guid: df4135d5b751bc142ad0d6a9c4dab41b, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7595102235436058348, guid: df4135d5b751bc142ad0d6a9c4dab41b, type: 3}
@@ -8839,6 +8849,7 @@ MonoBehaviour:
   - {fileID: 815103776}
   - {fileID: 884342934}
   - {fileID: 1855714102}
+  RoundGibs: {fileID: 9182173783611751538, guid: e3dd10ef071c6e74cae770b5e2b9c2b5, type: 3}
 --- !u!4 &1966823281
 Transform:
   m_ObjectHideFlags: 0

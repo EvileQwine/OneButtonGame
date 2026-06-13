@@ -26,6 +26,8 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody2D rb;
 
+    public int DeathCount = 0;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,7 +69,12 @@ public class PlayerScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Checkpoint"))
         {
-            currentCheckpoint = checkpointManager.ReturnIndex(other.gameObject);
+            int i = checkpointManager.ReturnIndex(other.gameObject);
+            if (currentCheckpoint != i)
+            {
+                currentCheckpoint = i;
+                effects.RemoveAttempts();
+            }
         }
         else if (other.gameObject.CompareTag("Danger"))
         {
@@ -89,12 +96,14 @@ public class PlayerScript : MonoBehaviour
         transform.position = checkpointManager.ReturnCheckpoint(currentCheckpoint);
         speed = 0;
         rb.linearVelocity = Vector2.zero;
+        DeathCount++;
     }
     IEnumerator DisableMovement(float f)
     {
         canMove = false;
         yield return new WaitForSeconds(f);
         rb.linearVelocity = Vector2.zero;
+        speed = 0;
         canMove = true;
     }
 }
