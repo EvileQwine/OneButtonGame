@@ -21,8 +21,8 @@ public class EffectsScript : MonoBehaviour
         GameObject gib = Instantiate(RoughGibs, exploder.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         gib.GetComponent<SpriteShapeRenderer>().color = color;
         attempts.Add(gib);
-        GameObject[] pieces = new GameObject[5];
-        for (int i = 0; i < 5; i++)
+        GameObject[] pieces = new GameObject[10];
+        for (int i = 0; i < pieces.Length; i++)
         {
             pieces[i] = Instantiate(RoundGibs, exploder.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
             pieces[i].GetComponent<SpriteRenderer>().color = color;

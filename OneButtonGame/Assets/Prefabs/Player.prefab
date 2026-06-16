@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9e0eb5b67ba694bb327bff96b45ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  powerUp: {fileID: 2804863300687230236, guid: 5f23c232de2b7a5488445fa4938c3913, type: 3}
   currentCheckpoint: 0
   moveSpeed: 0.5
   burnOffSpeed: 0.2
@@ -268,6 +269,7 @@ MonoBehaviour:
   speed: 0
   canMove: 1
   bounceStrength: 40
+  DeathCount: 0
 --- !u!114 &1230690240848232874
 MonoBehaviour:
   m_ObjectHideFlags: 0
