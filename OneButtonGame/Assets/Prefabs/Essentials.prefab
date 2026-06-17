@@ -117,6 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreScript
   timerText: {fileID: 709338842436828471}
   active: 0
+  elapsedTime: 0
+  delay: 1
+  timeTo: 0
 --- !u!1 &577028240831152873
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +822,14 @@ PrefabInstance:
     - target: {fileID: 2130109482339675612, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
       propertyPath: currentCheckpoint
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791644259977722613, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791644259977722613, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 487024009
       objectReference: {fileID: 0}
     - target: {fileID: 6102980226575799730, guid: 29c568fb1de053d4793ec3e240bdf7d4, type: 3}
       propertyPath: m_Name

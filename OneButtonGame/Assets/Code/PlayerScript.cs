@@ -34,6 +34,8 @@ public class PlayerScript : MonoBehaviour
     public int DeathCount = 0;
 
     public bool damageable = true;
+    public float speedMultiplier = 1;
+    public float burnSpeedMultiplier = 1;
 
     void Awake()
     {
@@ -51,7 +53,7 @@ public class PlayerScript : MonoBehaviour
         angle = Mathf.Atan2(forward.x, forward.y) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angle));
 
-        if (Input.GetMouseButtonDown(0)) leftMousedown = true; 
+        if (Input.GetMouseButtonDown(0)) leftMousedown = true;
         if (Input.GetMouseButtonUp(0)) leftMousedown = false;
 
     }
@@ -59,14 +61,14 @@ public class PlayerScript : MonoBehaviour
     {
         if (leftMousedown)
         {
-            if (!scoreScript.active) scoreScript.Counting(true);        
+            if (!scoreScript.active) scoreScript.Counting(true);
             moveDir = forward;
-            speed += moveSpeed;
+            speed += (moveSpeed * speedMultiplier);
             if (speed >= maxSpeed) speed = maxSpeed;
         }
         if (!leftMousedown)
         {
-            if (speed > 0) speed -= burnOffSpeed;
+            if (speed > 0) speed -= (burnOffSpeed * burnSpeedMultiplier);
             else speed = 0;
         }
         if (canMove)
@@ -94,16 +96,23 @@ public class PlayerScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Powerup"))
         {
-            PowerUp(other.gameObject.GetComponent<PowerUpMemory>().powerup, 
-                other.gameObject.GetComponent<PowerUpMemory>().powerMultiplier, 
+            PowerUp(other.gameObject.GetComponent<PowerUpMemory>().powerup,
+                other.gameObject.GetComponent<PowerUpMemory>().powerMultiplier,
                 other.gameObject.GetComponent<PowerUpMemory>().powerTime);
 
             collectedPowerups.Add(Tuple.Create(
-                other.gameObject.transform.position, 
+                other.gameObject.transform.position,
                 other.gameObject.GetComponent<PowerUpMemory>().powerup, other.gameObject.GetComponent<PowerUpMemory>().powerMultiplier,
                 other.gameObject.GetComponent<PowerUpMemory>().powerTime));
 
             Destroy(other.gameObject);
+        }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Danger") && damageable)
+        {
+            Death();
         }
     }
     void OnCollisionEnter2D(Collision2D collision)
@@ -111,7 +120,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Bouncy"))
         {
             rb.linearVelocity = Vector2.zero;
-            rb.AddForce(bounceStrength * - speed * moveDir.normalized);
+            rb.AddForce(bounceStrength * -speed * moveDir.normalized);
             StartCoroutine(DisableMovement(0.5f));
         }
     }
@@ -119,10 +128,6 @@ public class PlayerScript : MonoBehaviour
     {
         scoreScript.Counting(false);
         effects.Death(gameObject);
-        transform.position = checkpointManager.ReturnCheckpoint(currentCheckpoint);
-        speed = 0;
-        rb.linearVelocity = Vector2.zero;
-        DeathCount++;
         for (int i = 0; i < collectedPowerups.Count; i++)
         {
             GameObject thing = Instantiate(powerUp, collectedPowerups[i].Item1, Quaternion.identity);
@@ -131,6 +136,10 @@ public class PlayerScript : MonoBehaviour
             thing.GetComponent<PowerUpMemory>().powerTime = collectedPowerups[i].Item4;
         }
         collectedPowerups.Clear();
+        speed = 0;
+        rb.linearVelocity = Vector2.zero;
+        transform.position = checkpointManager.ReturnCheckpoint(currentCheckpoint);
+        DeathCount++;
         ClearPowers();
     }
     IEnumerator DisableMovement(float f)
@@ -143,7 +152,7 @@ public class PlayerScript : MonoBehaviour
     }
     public void PowerUp(PowerUps powerup, float multiplier, int time)
     {
-        switch(powerup)
+        switch (powerup)
         {
             case PowerUps.TimeDelay:
                 scoreScript.DelayTime(multiplier, time);
@@ -151,16 +160,37 @@ public class PlayerScript : MonoBehaviour
             case PowerUps.Invincible:
                 StartCoroutine(Invincible(time));
                 break;
+            case PowerUps.Acceleration:
+                StartCoroutine(SpeedModifier(time, multiplier));
+                break;
+            case PowerUps.BurnSpeed:
+                StartCoroutine(BurnSpeedModifier(time, multiplier));
+                break;
         }
     }
     public void ClearPowers()
     {
         scoreScript.delay = 1;
+        damageable = true;
+        speedMultiplier = 1;
+        burnSpeedMultiplier = 1;
     }
     IEnumerator Invincible(float f)
     {
         damageable = false;
         yield return new WaitForSeconds(f);
         damageable = true;
+    }
+    IEnumerator SpeedModifier(float f, float multiplier)
+    {
+        speedMultiplier = multiplier;
+        yield return new WaitForSeconds(f);
+        speedMultiplier = 1;
+    }
+    IEnumerator BurnSpeedModifier(float f, float multiplier)
+    {
+        burnSpeedMultiplier = multiplier;
+        yield return new WaitForSeconds(f);
+        burnSpeedMultiplier = 1;
     }
 }

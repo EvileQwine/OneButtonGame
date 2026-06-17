@@ -4,7 +4,8 @@ public enum PowerUps
 {
     TimeDelay,
     Invincible,
-    Speed,
+    Acceleration,
+    BurnSpeed,
     Laser,
 }
 public class PowerUpMemory : MonoBehaviour
